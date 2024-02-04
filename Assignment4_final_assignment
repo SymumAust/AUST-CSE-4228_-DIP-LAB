@@ -24,7 +24,7 @@ subplot(2, 4, 2);
 imshow(out2, []);
 title('Figure (b)');
 
-out3 = I + out2;
+out3 = I - out2;
 
 
 subplot(2, 4, 3);
