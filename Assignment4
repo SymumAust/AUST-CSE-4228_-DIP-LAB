@@ -1,0 +1,107 @@
+I = imread('Image1.jpg');
+I = im2double(I);
+
+
+subplot(2, 4, 1);
+imshow(I, []);
+title('Figure (a)');
+
+laplacian_filter = [0 1 0; 1 -4 1; 0 1 0];
+
+[m, n] = size(I);
+
+
+out2 = zeros(m, n);
+for i = 2:m-1
+    for j = 2:n-1
+        neighborhood = I(i-1:i+1, j-1:j+1);
+        out2(i, j) = sum(sum(neighborhood .* laplacian_filter));
+    end
+end
+
+
+subplot(2, 4, 2);
+imshow(out2, []);
+title('Figure (b)');
+
+out3 = I + out2;
+
+
+subplot(2, 4, 3);
+imshow(out3, []);
+title('Figure (c)');
+
+gx = [-1 0 1; -2 0 2; -1 0 1];
+gy = [1 2 1; 0 0 0; -1 -2 -1];
+
+
+[m, n] = size(I);
+sobel_x = zeros(m, n);
+sobel_y = zeros(m, n);
+
+for i = 2:m-1
+    for j = 2:n-1
+        neighborhood = I(i-1:i+1, j-1:j+1);
+        sobel_x(i, j) = sum(sum(neighborhood .* gx));
+        sobel_y(i, j) = sum(sum(neighborhood .* gy));
+    end
+end
+
+out4 = sqrt(sobel_x.^2 + sobel_y.^2);
+subplot(2, 4, 4);
+imshow(out4, []);
+title('Figure (d)');
+
+
+avg = ones(5) / 25; 
+
+
+[m, n] = size(out4);
+out5 = zeros(m, n);
+
+
+for i = 3:m-2
+    for j = 3:n-2
+        neighborhood = out4(i-2:i+2, j-2:j+2);
+        out5(i, j) = sum(sum(neighborhood .* avg));
+    end
+end
+
+
+subplot(2, 4, 5);
+imshow(out5, []);
+title('Figure (e)');
+
+out6 = out3 .* out5;
+
+
+subplot(2, 4, 6);
+imshow(out6, []);
+title('Figure (f)');
+
+out7 = I + out6;
+subplot(2, 4, 7);
+imshow(out7, []);
+title('Figure (g)');
+
+
+c = 1;
+gamma = 0.5;
+
+out8 = c * power(out7, gamma);
+
+subplot(2, 4, 8);
+imshow(out8, []);
+title('Figure (h)');
+
+
+
+
+
+
+
+
+
+
+
+
